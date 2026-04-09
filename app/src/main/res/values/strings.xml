@@ -1,9 +1,52 @@
 <resources>
     <string name="app_name">Woofie</string>
-    <string name="welcome_title">Hola, Woofie</string>
-    <string name="welcome_subtitle">Aprender idiomas puede sentirse ligero, cercano y posible desde hoy.</string>
-    <string name="welcome_card_title">Tu ritmo, tu avance</string>
-    <string name="welcome_card_body">Empieza con sesiones cortas y claras. Cada paso cuenta para construir tu habito diario.</string>
-    <string name="welcome_cta">Comenzar</string>
-    <string name="welcome_cta_feedback">Muy pronto activaremos tus primeras lecciones.</string>
+    <string name="wolf_content_description">Mascota lobo de Woofie</string>
+
+    <string name="onboarding_title">Bienvenido a Woofie</string>
+    <string name="onboarding_subtitle">Tu app de ingles profesional con sesiones rapidas, claras y entretenidas.</string>
+    <string name="onboarding_profession_title">Elige tu profesion</string>
+    <string name="onboarding_level_title">Nivel sugerido para empezar</string>
+    <string name="onboarding_summary">Ruta lista: %1$s - Nivel %2$s</string>
+    <string name="onboarding_summary_empty">Selecciona profesion y nivel para activar tu plan.</string>
+    <string name="onboarding_continue">Crear mi ruta</string>
+
+    <string name="profession_it">Tecnologia e IT</string>
+    <string name="profession_health">Salud</string>
+    <string name="profession_sales">Ventas y atencion</string>
+    <string name="level_a1">A1</string>
+    <string name="level_a2">A2</string>
+    <string name="level_b1">B1</string>
+
+    <string name="home_greeting">Hola, vamos por tu racha</string>
+    <string name="home_profession_detail">Ruta: %1$s (Nivel %2$s)\nFoco de hoy: %3$s</string>
+    <string name="home_streak">Racha: %1$d dias | Lecciones: %2$d | XP: %3$d</string>
+    <string name="home_start_lesson">Ver mapa de lecciones</string>
+    <string name="home_open_progress">Ver progreso</string>
+
+    <string name="lesson_path_title">Camino Woofie</string>
+    <string name="lesson_path_subtitle">Completa tus lecciones en orden. Los cuadrados se desbloquean al avanzar.</string>
+    <string name="lesson_path_trail_title">Camino numerico</string>
+    <string name="lesson_path_trail_prefix">Camino: %1$s</string>
+
+    <string name="lesson_progress">Pregunta %1$d de %2$d</string>
+    <string name="lesson_goal">Meta de la leccion: minimo 6 de 8 correctas.</string>
+    <string name="lesson_check">Revisar respuesta</string>
+    <string name="lesson_next">Siguiente</string>
+    <string name="lesson_select_option">Elige una opcion para continuar.</string>
+    <string name="lesson_correct">Excelente. Tu respuesta es correcta.</string>
+    <string name="lesson_incorrect">Casi. Respuesta correcta: %1$s</string>
+    <string name="lesson_feedback_title">Por que esta mal esta respuesta</string>
+    <string name="lesson_feedback_body">Elegiste "%1$s", pero en este contexto la expresion correcta es "%2$s". Esa opcion comunica la idea profesional esperada para esta situacion.</string>
+    <string name="lesson_feedback_expand">Toca para ampliar</string>
+    <string name="lesson_feedback_collapse">Toca para contraer</string>
+
+    <string name="progress_title">Buen trabajo en %1$s</string>
+    <string name="progress_summary">Lecciones completadas: %1$d\nRacha actual: %2$d dias\nXP acumulado: %3$d\nNivel actual: %4$s</string>
+    <string name="progress_last_result">Resultado de hoy: %1$s</string>
+    <string name="progress_points_earned">Puntos ganados en esta leccion: +%1$d XP</string>
+    <string name="progress_pass_status">Estado: %1$s (objetivo minimo 6/8)</string>
+    <string name="progress_passed">Leccion aprobada</string>
+    <string name="progress_not_passed">Leccion completada, sigue practicando</string>
+    <string name="progress_back_home">Volver al inicio</string>
+    <string name="progress_restart">Reiniciar plan profesional</string>
 </resources>

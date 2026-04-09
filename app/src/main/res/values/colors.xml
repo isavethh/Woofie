@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="woofie_primary_light">#8ECAE6</color>
-    <color name="woofie_primary">#219EBC</color>
-    <color name="woofie_primary_dark">#023047</color>
-    <color name="woofie_accent">#FFB703</color>
-    <color name="woofie_accent_strong">#FB8500</color>
-    <color name="woofie_background">#FFF9F1</color>
+    <color name="woofie_primary_light">#CFEFFF</color>
+    <color name="woofie_primary">#72BFEA</color>
+    <color name="woofie_primary_dark">#385A70</color>
+    <color name="woofie_accent">#9ED6F4</color>
+    <color name="woofie_accent_strong">#5AAEDB</color>
+    <color name="woofie_background">#F2F5F8</color>
     <color name="woofie_surface">#FFFFFFFF</color>
-    <color name="woofie_text_primary">#1C1C1C</color>
+    <color name="woofie_text_primary">#2F3B46</color>
     <color name="woofie_text_on_dark">#FFFFFFFF</color>
+    <color name="woofie_gray_200">#E3E8EE</color>
+    <color name="woofie_gray_500">#7C8A97</color>
+    <color name="woofie_success_light">#DFF4FF</color>
+    <color name="woofie_success">#56A8D5</color>
 </resources>

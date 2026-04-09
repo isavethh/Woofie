@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <ImageView
+            android:layout_width="94dp"
+            android:layout_height="94dp"
+            android:contentDescription="@string/wolf_content_description"
+            android:src="@drawable/woofie_wolf" />
+
+        <TextView
+            android:id="@+id/textProgressHeadline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:gravity="center"
+            android:textColor="@color/woofie_primary_dark"
+            android:textSize="26sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textProgressResult"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:textColor="@color/woofie_text_primary"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/textProgressPoints"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:gravity="center"
+            android:textColor="@color/woofie_primary_dark"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textProgressStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:gravity="center"
+            android:textColor="@color/woofie_text_primary" />
+
+        <TextView
+            android:id="@+id/textProgressSummary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/card_woofie_outline"
+            android:gravity="center"
+            android:padding="18dp"
+            android:textColor="@color/woofie_primary_dark" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonBackHome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="@color/woofie_accent"
+            android:text="@string/progress_back_home"
+            android:textAllCaps="false"
+            android:textColor="@color/woofie_primary_dark" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonRestartPlan"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/progress_restart"
+            android:textAllCaps="false"
+            android:textColor="@color/woofie_primary_dark" />
+    </LinearLayout>
+</ScrollView>
+

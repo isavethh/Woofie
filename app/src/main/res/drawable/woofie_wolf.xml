@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="@color/woofie_primary_dark" />
+        </shape>
+    </item>
+
+    <item
+        android:bottom="14dp"
+        android:left="14dp"
+        android:right="14dp"
+        android:top="32dp">
+        <shape android:shape="oval">
+            <solid android:color="@color/woofie_primary_light" />
+        </shape>
+    </item>
+
+    <item
+        android:bottom="40dp"
+        android:left="24dp"
+        android:right="42dp"
+        android:top="24dp">
+        <shape android:shape="oval">
+            <solid android:color="@color/woofie_surface" />
+        </shape>
+    </item>
+
+    <item
+        android:bottom="40dp"
+        android:left="42dp"
+        android:right="24dp"
+        android:top="24dp">
+        <shape android:shape="oval">
+            <solid android:color="@color/woofie_surface" />
+        </shape>
+    </item>
+
+    <item
+        android:bottom="28dp"
+        android:left="34dp"
+        android:right="34dp"
+        android:top="36dp">
+        <shape android:shape="oval">
+            <solid android:color="@color/woofie_accent" />
+        </shape>
+    </item>
+</layer-list>
+

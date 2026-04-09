@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Woofie</string>
+    <string name="welcome_title">Hola, Woofie</string>
+    <string name="welcome_subtitle">Aprender idiomas puede sentirse ligero, cercano y posible desde hoy.</string>
+    <string name="welcome_card_title">Tu ritmo, tu avance</string>
+    <string name="welcome_card_body">Empieza con sesiones cortas y claras. Cada paso cuenta para construir tu habito diario.</string>
+    <string name="welcome_cta">Comenzar</string>
+    <string name="welcome_cta_feedback">Muy pronto activaremos tus primeras lecciones.</string>
+</resources>

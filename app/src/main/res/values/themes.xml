@@ -1,0 +1,19 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.Woofie" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/woofie_primary</item>
+        <item name="colorPrimaryVariant">@color/woofie_primary_dark</item>
+        <item name="colorOnPrimary">@color/woofie_text_on_dark</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/woofie_accent</item>
+        <item name="colorSecondaryVariant">@color/woofie_accent_strong</item>
+        <item name="colorOnSecondary">@color/woofie_primary_dark</item>
+        <item name="colorSurface">@color/woofie_surface</item>
+        <item name="android:colorBackground">@color/woofie_background</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <!-- Customize your theme here. -->
+    </style>
+</resources>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="woofie_primary_light">#8ECAE6</color>
+    <color name="woofie_primary">#219EBC</color>
+    <color name="woofie_primary_dark">#023047</color>
+    <color name="woofie_accent">#FFB703</color>
+    <color name="woofie_accent_strong">#FB8500</color>
+    <color name="woofie_background">#FFF9F1</color>
+    <color name="woofie_surface">#FFFFFFFF</color>
+    <color name="woofie_text_primary">#1C1C1C</color>
+    <color name="woofie_text_on_dark">#FFFFFFFF</color>
+</resources>

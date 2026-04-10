@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@android:drawable/ic_menu_view"
+        android:title="Inicio" />
+    <item
+        android:id="@+id/navigation_path"
+        android:icon="@android:drawable/ic_menu_directions"
+        android:title="Camino" />
+    <item
+        android:id="@+id/navigation_practice"
+        android:icon="@android:drawable/ic_menu_edit"
+        android:title="Practica" />
+    <item
+        android:id="@+id/navigation_vocabulary"
+        android:icon="@android:drawable/ic_menu_agenda"
+        android:title="Vocabulario" />
+    <item
+        android:id="@+id/navigation_progress"
+        android:icon="@android:drawable/ic_menu_myplaces"
+        android:title="Progreso" />
+</menu>
+
+

@@ -44,9 +44,7 @@ class LessonFragment : Fragment(R.layout.fragment_lesson) {
         questions = WoofieRepository.getQuestionsFor(profile.profession)
 
         val progressText: TextView = view.findViewById(R.id.textLessonProgress)
-        val progressBarId = resources.getIdentifier("lessonProgressBar", "id", requireContext().packageName)
-        val progressBar: LinearProgressIndicator? =
-            if (progressBarId != 0) view.findViewById(progressBarId) else null
+        val progressBar: LinearProgressIndicator = view.findViewById(R.id.lessonProgressBar)
         val questionText: TextView = view.findViewById(R.id.textLessonQuestion)
         val resultText: TextView = view.findViewById(R.id.textLessonResult)
         val wrongFeedbackCard: MaterialCardView = view.findViewById(R.id.cardWrongFeedback)
@@ -65,7 +63,7 @@ class LessonFragment : Fragment(R.layout.fragment_lesson) {
         val shakeAnim = AnimationUtils.loadAnimation(requireContext(), R.anim.woofie_shake)
         var isFeedbackExpanded = false
 
-        progressBar?.max = questions.size
+        progressBar.max = questions.size
 
         fun animateOptionsEntry() {
             options.forEachIndexed { index, option ->
@@ -105,7 +103,7 @@ class LessonFragment : Fragment(R.layout.fragment_lesson) {
         fun bindQuestion() {
             val question = questions[currentIndex]
             progressText.text = getString(R.string.lesson_progress, currentIndex + 1, questions.size)
-            progressBar?.progress = currentIndex + 1
+            progressBar.progress = currentIndex + 1
             questionText.text = question.prompt
             questionText.startAnimation(questionAnim)
             optionOne.text = question.options[0]
@@ -188,6 +186,7 @@ class LessonFragment : Fragment(R.layout.fragment_lesson) {
                 hideFeedback()
                 getString(R.string.lesson_correct)
             } else {
+                WoofieRepository.registerMistake(currentQuestion.prompt)
                 showWrongFeedback(
                     selectedOption = currentQuestion.options[selectedIndex],
                     correctOption = currentQuestion.options[currentQuestion.correctIndex]

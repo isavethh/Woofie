@@ -3,37 +3,94 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingBottom="8dp">
+    android:paddingBottom="12dp">
 
     <FrameLayout
         android:id="@+id/nodeAnchor"
         android:layout_width="match_parent"
-        android:layout_height="86dp">
+        android:layout_height="96dp">
 
-        <View
-            android:id="@+id/nodeShadow"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
+        <LinearLayout
+            android:id="@+id/nodeContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:background="@drawable/lesson_node_locked"
-            android:alpha="0.25"
-            android:translationY="6dp" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="8dp">
 
-        <TextView
-            android:id="@+id/textNodeBadge"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_gravity="center"
-            android:background="@drawable/lesson_node_unlocked"
-            android:gravity="center"
-            android:textColor="@color/woofie_primary_dark"
-            android:textStyle="bold" />
+            <FrameLayout
+                android:layout_width="74dp"
+                android:layout_height="74dp">
+
+                <View
+                    android:id="@+id/nodeShadow"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/lesson_node_locked"
+                    android:alpha="0.28"
+                    android:translationY="8dp" />
+
+                <View
+                    android:id="@+id/edgeTop"
+                    android:layout_width="56dp"
+                    android:layout_height="3dp"
+                    android:layout_gravity="top|center_horizontal"
+                    android:background="@color/woofie_gray_200" />
+
+                <View
+                    android:id="@+id/edgeRight"
+                    android:layout_width="3dp"
+                    android:layout_height="56dp"
+                    android:layout_gravity="center_vertical|end"
+                    android:background="@color/woofie_gray_200" />
+
+                <View
+                    android:id="@+id/edgeBottom"
+                    android:layout_width="56dp"
+                    android:layout_height="3dp"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:background="@color/woofie_gray_200" />
+
+                <View
+                    android:id="@+id/edgeLeft"
+                    android:layout_width="3dp"
+                    android:layout_height="56dp"
+                    android:layout_gravity="center_vertical|start"
+                    android:background="@color/woofie_gray_200" />
+
+                <TextView
+                    android:id="@+id/textNodeBadge"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/lesson_node_unlocked"
+                    android:gravity="center"
+                    android:textColor="@color/woofie_primary_dark"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/textNodeConcept"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/lesson_option_idle"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:padding="8dp"
+                android:textColor="@color/woofie_text_primary"
+                android:textSize="13sp" />
+        </LinearLayout>
     </FrameLayout>
 
     <View
         android:id="@+id/pathConnector"
-        android:layout_width="8dp"
-        android:layout_height="34dp"
+        android:layout_width="6dp"
+        android:layout_height="30dp"
         android:layout_gravity="center_horizontal"
         android:background="@color/woofie_primary_light" />
 </LinearLayout>

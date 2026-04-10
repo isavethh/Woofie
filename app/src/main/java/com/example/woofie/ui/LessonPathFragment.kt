@@ -47,155 +47,183 @@ class LessonPathFragment : Fragment(R.layout.fragment_lesson_path) {
         container.removeAllViews()
         trailContainer?.removeAllViews()
 
-        val totalNodes = WoofieRepository.LESSON_SIZE
+        val stages = WoofieRepository.getLessonStages(profile.profession)
+        val totalNodes = WoofieRepository.getTotalLessons(profile.profession)
         val completed = profile.completedLessons.coerceAtMost(totalNodes)
         val nextUnlocked = (completed + 1).coerceAtMost(totalNodes)
         val currentNode = if (nextUnlocked <= totalNodes) nextUnlocked else totalNodes
 
         fun dp(value: Int): Int = (value * resources.displayMetrics.density).toInt()
 
-        trailContainer?.let { trail ->
-            repeat(totalNodes) { index ->
-                val number = index + 1
-                val isDone = number <= completed
-                val isCurrentTrail = number == currentNode
+        repeat(totalNodes) { index ->
+            val number = index + 1
+            val isDone = number <= completed
+            val isCurrentTrail = number == currentNode
 
-                val chip = TextView(requireContext()).apply {
-                    text = number.toString()
-                    textSize = 13f
-                    setTypeface(typeface, android.graphics.Typeface.BOLD)
-                    gravity = android.view.Gravity.CENTER
-                    layoutParams = LinearLayout.LayoutParams(dp(30), dp(30))
-                    background = when {
-                        isDone -> ContextCompat.getDrawable(requireContext(), R.drawable.lesson_node_completed)
-                        isCurrentTrail -> ContextCompat.getDrawable(requireContext(), R.drawable.lesson_node_current)
-                        else -> ContextCompat.getDrawable(requireContext(), R.drawable.lesson_node_locked)
+            val chip = TextView(requireContext()).apply {
+                text = number.toString()
+                textSize = 13f
+                setTypeface(typeface, android.graphics.Typeface.BOLD)
+                gravity = android.view.Gravity.CENTER
+                layoutParams = LinearLayout.LayoutParams(dp(30), dp(30))
+                background = when {
+                    isDone -> ContextCompat.getDrawable(requireContext(), R.drawable.lesson_node_completed)
+                    isCurrentTrail -> ContextCompat.getDrawable(requireContext(), R.drawable.lesson_node_current)
+                    else -> ContextCompat.getDrawable(requireContext(), R.drawable.lesson_node_locked)
+                }
+                setTextColor(
+                    if (isDone) ContextCompat.getColor(requireContext(), R.color.woofie_text_on_dark)
+                    else ContextCompat.getColor(requireContext(), R.color.woofie_primary_dark)
+                )
+            }
+            trailContainer?.addView(chip)
+
+            if (number < totalNodes) {
+                val connector = View(requireContext()).apply {
+                    layoutParams = LinearLayout.LayoutParams(dp(18), dp(4)).also { params ->
+                        params.leftMargin = dp(6)
+                        params.rightMargin = dp(6)
                     }
-                    setTextColor(
-                        if (isDone) ContextCompat.getColor(requireContext(), R.color.woofie_text_on_dark)
-                        else ContextCompat.getColor(requireContext(), R.color.woofie_primary_dark)
+                    setBackgroundColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            if (number < currentNode) R.color.woofie_primary else R.color.woofie_gray_200
+                        )
                     )
                 }
-                trail.addView(chip)
-
-                if (number < totalNodes) {
-                    val connector = View(requireContext()).apply {
-                        layoutParams = LinearLayout.LayoutParams(dp(18), dp(4)).also { params ->
-                            params.leftMargin = dp(6)
-                            params.rightMargin = dp(6)
-                        }
-                        setBackgroundColor(
-                            ContextCompat.getColor(
-                                requireContext(),
-                                if (number < currentNode) R.color.woofie_primary else R.color.woofie_gray_200
-                            )
-                        )
-                    }
-                    trail.addView(connector)
-                }
+                trailContainer?.addView(connector)
             }
         }
 
-        repeat(totalNodes) { index ->
-            val nodeView = LayoutInflater.from(requireContext())
-                .inflate(R.layout.item_lesson_path_node, container, false)
-
-            val anchor: FrameLayout = nodeView.findViewById(R.id.nodeAnchor)
-            val badge: TextView = nodeView.findViewById(R.id.textNodeBadge)
-            val connector: View = nodeView.findViewById(R.id.pathConnector)
-            val shadow: View = nodeView.findViewById(R.id.nodeShadow)
-
-            val nodeNumber = index + 1
-            val isCompleted = nodeNumber <= completed
-            val isUnlocked = nodeNumber <= nextUnlocked
-            val isCurrent = nodeNumber == currentNode
-
-            badge.text = nodeNumber.toString()
-            badge.background = when {
-                isCompleted -> ContextCompat.getDrawable(requireContext(), R.drawable.lesson_node_completed)
-                isCurrent -> ContextCompat.getDrawable(requireContext(), R.drawable.lesson_node_current)
-                isUnlocked -> ContextCompat.getDrawable(requireContext(), R.drawable.lesson_node_unlocked)
-                else -> ContextCompat.getDrawable(requireContext(), R.drawable.lesson_node_locked)
+        stages.forEach { stage ->
+            val stageTitle = TextView(requireContext()).apply {
+                text = getString(R.string.lesson_path_stage_title, stage.number, stage.title)
+                setTextColor(ContextCompat.getColor(requireContext(), R.color.woofie_primary_dark))
+                setTypeface(typeface, android.graphics.Typeface.BOLD)
+                textSize = 16f
+                setPadding(dp(4), dp(10), dp(4), dp(8))
             }
-            badge.setTextColor(
-                if (isCompleted) ContextCompat.getColor(requireContext(), R.color.woofie_text_on_dark)
-                else ContextCompat.getColor(requireContext(), R.color.woofie_primary_dark)
-            )
-            badge.alpha = if (isUnlocked) 1f else 0.65f
-            badge.isEnabled = isUnlocked
-            shadow.alpha = if (isUnlocked) 1f else 0.45f
-            badge.scaleX = if (isCurrent) 1.08f else 1f
-            badge.scaleY = if (isCurrent) 1.08f else 1f
+            container.addView(stageTitle)
 
-            val anchorParams = anchor.layoutParams as LinearLayout.LayoutParams
-            val offsetX = when (index % 6) {
-                0 -> -120f
-                1 -> -26f
-                2 -> 86f
-                3 -> 120f
-                4 -> 18f
-                else -> -92f
-            }
-            anchor.translationX = offsetX
-            anchor.layoutParams = anchorParams
+            stage.lessonRange.forEach { nodeNumber ->
+                val index = nodeNumber - 1
+                val nodeView = LayoutInflater.from(requireContext())
+                    .inflate(R.layout.item_lesson_path_node, container, false)
 
-            connector.visibility = if (nodeNumber == totalNodes) View.GONE else View.VISIBLE
-            if (nodeNumber < totalNodes) {
-                val nextOffsetX = when ((index + 1) % 6) {
-                    0 -> -120f
-                    1 -> -26f
-                    2 -> 86f
-                    3 -> 120f
+                val anchor: FrameLayout = nodeView.findViewById(R.id.nodeAnchor)
+                val badge: TextView = nodeView.findViewById(R.id.textNodeBadge)
+                val concept: TextView = nodeView.findViewById(R.id.textNodeConcept)
+                val connector: View = nodeView.findViewById(R.id.pathConnector)
+                val shadow: View = nodeView.findViewById(R.id.nodeShadow)
+                val edgeTop: View = nodeView.findViewById(R.id.edgeTop)
+                val edgeRight: View = nodeView.findViewById(R.id.edgeRight)
+                val edgeBottom: View = nodeView.findViewById(R.id.edgeBottom)
+                val edgeLeft: View = nodeView.findViewById(R.id.edgeLeft)
+
+                val isCompleted = nodeNumber <= completed
+                val isUnlocked = nodeNumber <= nextUnlocked
+                val isCurrent = nodeNumber == currentNode
+                val lessonsPerSquare = 4
+                val learnedInSquare = (completed - ((nodeNumber - 1) * lessonsPerSquare)).coerceIn(0, lessonsPerSquare)
+
+                badge.text = nodeNumber.toString()
+                concept.text = WoofieRepository.getLessonConcept(profile.profession, nodeNumber)
+                badge.background = when {
+                    isCompleted -> ContextCompat.getDrawable(requireContext(), R.drawable.lesson_node_completed)
+                    isCurrent -> ContextCompat.getDrawable(requireContext(), R.drawable.lesson_node_current)
+                    isUnlocked -> ContextCompat.getDrawable(requireContext(), R.drawable.lesson_node_unlocked)
+                    else -> ContextCompat.getDrawable(requireContext(), R.drawable.lesson_node_locked)
+                }
+                badge.setTextColor(
+                    if (isCompleted) ContextCompat.getColor(requireContext(), R.color.woofie_text_on_dark)
+                    else ContextCompat.getColor(requireContext(), R.color.woofie_primary_dark)
+                )
+                badge.alpha = if (isUnlocked) 1f else 0.65f
+                concept.alpha = if (isUnlocked) 1f else 0.62f
+                badge.isEnabled = isUnlocked
+                shadow.alpha = if (isUnlocked) 1f else 0.45f
+                badge.scaleX = if (isCurrent) 1.08f else 1f
+                badge.scaleY = if (isCurrent) 1.08f else 1f
+                concept.setTypeface(concept.typeface, if (isCurrent) android.graphics.Typeface.BOLD else android.graphics.Typeface.NORMAL)
+
+                val edgeDoneColor = ContextCompat.getColor(requireContext(), R.color.woofie_primary)
+                val edgeTodoColor = ContextCompat.getColor(requireContext(), R.color.woofie_gray_200)
+                listOf(edgeTop, edgeRight, edgeBottom, edgeLeft).forEachIndexed { edgeIndex, edge ->
+                    edge.setBackgroundColor(if (edgeIndex < learnedInSquare) edgeDoneColor else edgeTodoColor)
+                    edge.alpha = if (isUnlocked) 1f else 0.55f
+                }
+
+                val anchorParams = anchor.layoutParams as LinearLayout.LayoutParams
+                val offsetX = when (index % 6) {
+                    0 -> 0f
+                    1 -> 14f
+                    2 -> 30f
+                    3 -> 38f
                     4 -> 18f
-                    else -> -92f
+                    else -> 6f
                 }
-                connector.translationX = (nextOffsetX - offsetX) / 2f
-                connector.rotation = (nextOffsetX - offsetX) / 10f
-            }
+                anchor.translationX = offsetX
+                anchor.layoutParams = anchorParams
 
-            if (isUnlocked) {
-                val floatAnim = ObjectAnimator.ofFloat(badge, View.TRANSLATION_Y, 0f, -8f, 0f).apply {
-                    duration = 1800
-                    startDelay = index * 100L
-                    repeatCount = ValueAnimator.INFINITE
+                connector.visibility = if (nodeNumber == totalNodes) View.GONE else View.VISIBLE
+                if (nodeNumber < totalNodes) {
+                    val nextOffsetX = when ((index + 1) % 6) {
+                        0 -> 0f
+                        1 -> 14f
+                        2 -> 30f
+                        3 -> 38f
+                        4 -> 18f
+                        else -> 6f
+                    }
+                    connector.translationX = (nextOffsetX - offsetX) / 2f
+                    connector.rotation = (nextOffsetX - offsetX) / 10f
                 }
-                floatAnim.start()
 
-                badge.setOnTouchListener { touchedView, event ->
-                    when (event.actionMasked) {
-                        MotionEvent.ACTION_DOWN -> {
-                            touchedView.animate().scaleX(0.92f).scaleY(0.92f).setDuration(80).start()
-                            true
+                if (isUnlocked) {
+                    val floatAnim = ObjectAnimator.ofFloat(badge, View.TRANSLATION_Y, 0f, -8f, 0f).apply {
+                        duration = 1800
+                        startDelay = index * 100L
+                        repeatCount = ValueAnimator.INFINITE
+                    }
+                    floatAnim.start()
+
+                    badge.setOnTouchListener { touchedView, event ->
+                        when (event.actionMasked) {
+                            MotionEvent.ACTION_DOWN -> {
+                                touchedView.animate().scaleX(0.92f).scaleY(0.92f).setDuration(80).start()
+                                true
+                            }
+
+                            MotionEvent.ACTION_UP -> {
+                                touchedView.animate().scaleX(1f).scaleY(1f).setDuration(120).start()
+                                touchedView.performClick()
+                                true
+                            }
+
+                            MotionEvent.ACTION_CANCEL -> {
+                                touchedView.animate().scaleX(1f).scaleY(1f).setDuration(120).start()
+                                true
+                            }
+
+                            else -> false
                         }
+                    }
 
-                        MotionEvent.ACTION_UP -> {
-                            touchedView.animate().scaleX(1f).scaleY(1f).setDuration(120).start()
-                            touchedView.performClick()
-                            true
-                        }
-
-                        MotionEvent.ACTION_CANCEL -> {
-                            touchedView.animate().scaleX(1f).scaleY(1f).setDuration(120).start()
-                            true
-                        }
-
-                        else -> false
+                    badge.setOnClickListener {
+                        it.startAnimation(nodeAnim)
+                        listener?.onOpenLessonFromPath()
                     }
                 }
 
-                badge.setOnClickListener {
-                    it.startAnimation(nodeAnim)
-                    listener?.onOpenLessonFromPath()
-                }
+                badge.elevation = if (isCurrent) 10f else 6f
+
+                nodeView.startAnimation(nodeAnim)
+                container.addView(nodeView)
             }
-
-            badge.elevation = if (isCurrent) 10f else 6f
-
-            nodeView.startAnimation(nodeAnim)
-            container.addView(nodeView)
         }
     }
 }
+
 
 
 

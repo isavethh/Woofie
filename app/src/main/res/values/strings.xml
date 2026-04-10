@@ -23,8 +23,26 @@
     <string name="home_start_lesson">Ver mapa de lecciones</string>
     <string name="home_open_progress">Ver progreso</string>
 
+    <string name="nav_home">Inicio</string>
+    <string name="nav_path">Camino</string>
+    <string name="nav_practice">Practica</string>
+    <string name="nav_vocabulary">Vocabulario</string>
+    <string name="nav_progress">Progreso</string>
+
+    <string name="practice_center_title">Centro de practica</string>
+    <string name="practice_center_subtitle">Entrena habilidades clave y fortalece tus puntos debiles.</string>
+    <string name="practice_match_pairs_title">Juntar pares</string>
+    <string name="practice_match_pairs_desc">Relaciona termino y significado para ganar velocidad.</string>
+    <string name="practice_speak_title">Repetir en voz</string>
+    <string name="practice_speak_desc">Escucha una frase y repitela para mejorar pronunciacion.</string>
+    <string name="practice_review_errors_title">Repasar errores</string>
+    <string name="practice_review_errors_desc">Tienes %1$d errores recientes listos para practicar.</string>
+    <string name="practice_speak_coming_soon">La practica de voz estara disponible pronto.</string>
+    <string name="practice_no_errors_yet">Aun no tienes errores recientes para repasar.</string>
+
     <string name="lesson_path_title">Camino Woofie</string>
-    <string name="lesson_path_subtitle">Completa tus lecciones en orden. Los cuadrados se desbloquean al avanzar.</string>
+    <string name="lesson_path_subtitle">Completa tus lecciones por etapas. Los cuadrados se desbloquean al avanzar.</string>
+    <string name="lesson_path_stage_title">Etapa %1$d: %2$s</string>
     <string name="lesson_path_trail_title">Camino numerico</string>
     <string name="lesson_path_trail_prefix">Camino: %1$s</string>
 
@@ -39,6 +57,12 @@
     <string name="lesson_feedback_body">Elegiste "%1$s", pero en este contexto la expresion correcta es "%2$s". Esa opcion comunica la idea profesional esperada para esta situacion.</string>
     <string name="lesson_feedback_expand">Toca para ampliar</string>
     <string name="lesson_feedback_collapse">Toca para contraer</string>
+
+    <string name="vocabulary_title">Vocabulario tecnico</string>
+    <string name="vocabulary_subtitle">Terminos clave para %1$s</string>
+    <string name="vocabulary_term_format"><![CDATA[%1$s
+%2$s
+Ejemplo: %3$s]]></string>
 
     <string name="progress_title">Buen trabajo en %1$s</string>
     <string name="progress_summary">Lecciones completadas: %1$d\nRacha actual: %2$d dias\nXP acumulado: %3$d\nNivel actual: %4$s</string>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="woofie_vocab_stroke">1dp</dimen>
+    <dimen name="woofie_vocab_spacing">10dp</dimen>
+    <dimen name="woofie_vocab_padding">14dp</dimen>
+</resources>
+

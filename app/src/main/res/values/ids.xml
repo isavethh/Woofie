@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="lessonProgressBar" type="id" />
+    <item name="navigation_home" type="id" />
+    <item name="navigation_path" type="id" />
+    <item name="navigation_practice" type="id" />
+    <item name="navigation_vocabulary" type="id" />
+    <item name="navigation_progress" type="id" />
+    <item name="pathTrailContainer" type="id" />
 </resources>
 

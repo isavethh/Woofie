@@ -8,7 +8,6 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.woofie.R
 import com.example.woofie.data.WoofieRepository
-import com.example.woofie.ui.common.applySystemBarsPadding
 import com.google.android.material.button.MaterialButton
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
@@ -31,7 +30,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        view.applySystemBarsPadding()
         val profile = WoofieRepository.profile ?: return
 
         val greeting: TextView = view.findViewById(R.id.textHomeGreeting)

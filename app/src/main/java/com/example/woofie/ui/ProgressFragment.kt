@@ -9,7 +9,6 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.example.woofie.R
 import com.example.woofie.data.WoofieRepository
-import com.example.woofie.ui.common.applySystemBarsPadding
 import com.google.android.material.button.MaterialButton
 
 class ProgressFragment : Fragment(R.layout.fragment_progress) {
@@ -32,7 +31,6 @@ class ProgressFragment : Fragment(R.layout.fragment_progress) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        view.applySystemBarsPadding()
         val profile = WoofieRepository.profile ?: return
 
         val resultLabel = requireArguments().getString(ARG_RESULT_LABEL).orEmpty()

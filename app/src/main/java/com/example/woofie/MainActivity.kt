@@ -1,7 +1,11 @@
 package com.example.woofie
 
 import android.os.Bundle
+import android.view.View
+import android.view.Menu
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.example.woofie.data.WoofieRepository
 import com.example.woofie.model.Profession
 import com.example.woofie.model.UserProfile
@@ -9,25 +13,49 @@ import com.example.woofie.ui.HomeFragment
 import com.example.woofie.ui.LessonFragment
 import com.example.woofie.ui.LessonPathFragment
 import com.example.woofie.ui.OnboardingFragment
+import com.example.woofie.ui.PracticeCenterFragment
 import com.example.woofie.ui.ProgressFragment
+import com.example.woofie.ui.VocabularyFragment
 
 class MainActivity : AppCompatActivity(),
     OnboardingFragment.Listener,
     HomeFragment.Listener,
     LessonPathFragment.Listener,
+    PracticeCenterFragment.Listener,
     LessonFragment.Listener,
     ProgressFragment.Listener {
+
+    private lateinit var bottomNavigation: BottomNavigationView
+    private var suppressNavSelectionCallback: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        bottomNavigation = findViewById(R.id.bottomNavigation)
+        setupBottomNavigationMenu()
+
+        bottomNavigation.setOnItemSelectedListener { item ->
+            if (suppressNavSelectionCallback) return@setOnItemSelectedListener true
+            when (item.itemId) {
+                R.id.navigation_home -> showHome()
+                R.id.navigation_path -> showLessonPath()
+                R.id.navigation_practice -> showPracticeCenter()
+                R.id.navigation_vocabulary -> showVocabulary()
+                R.id.navigation_progress -> showProgress()
+                else -> return@setOnItemSelectedListener false
+            }
+            true
+        }
 
         if (savedInstanceState == null) {
             if (WoofieRepository.profile == null) {
                 showOnboarding()
             } else {
-                showHome()
+                showMainNavigation()
+                selectBottomTab(R.id.navigation_home)
             }
+        } else {
+            bottomNavigation.visibility = if (WoofieRepository.profile == null) View.GONE else View.VISIBLE
         }
     }
 
@@ -39,35 +67,48 @@ class MainActivity : AppCompatActivity(),
             completedLessons = 0,
             xp = 0
         )
-        showHome()
+        showMainNavigation()
+        selectBottomTab(R.id.navigation_home)
     }
 
     override fun onStartLesson() {
-        showLessonPath()
+        selectBottomTab(R.id.navigation_path)
     }
 
     override fun onOpenLessonFromPath() {
         showLesson()
     }
 
+    override fun onOpenMatchPairs() {
+        showLesson()
+    }
+
+    override fun onOpenSpeakPractice() {
+        Toast.makeText(this, R.string.practice_speak_coming_soon, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onOpenErrorReview() {
+        if (WoofieRepository.recentMistakes.isEmpty()) {
+            Toast.makeText(this, R.string.practice_no_errors_yet, Toast.LENGTH_SHORT).show()
+            return
+        }
+        showLesson()
+    }
+
     override fun onOpenProgress() {
-        showProgress()
+        selectBottomTab(R.id.navigation_progress)
     }
 
     override fun onLessonFinished(correctAnswers: Int, totalAnswers: Int) {
-        val outcome = WoofieRepository.registerLessonResult(
+        WoofieRepository.registerLessonResult(
             correctAnswers = correctAnswers,
             totalAnswers = totalAnswers
         )
-        showProgress(
-            resultLabel = outcome.scoreLabel,
-            earnedXp = outcome.earnedXp,
-            passedLesson = outcome.passed
-        )
+        selectBottomTab(R.id.navigation_progress)
     }
 
     override fun onBackToHome() {
-        showHome()
+        selectBottomTab(R.id.navigation_home)
     }
 
     override fun onRestartPlan() {
@@ -78,7 +119,54 @@ class MainActivity : AppCompatActivity(),
         showOnboarding()
     }
 
+    private fun showMainNavigation() {
+        bottomNavigation.visibility = View.VISIBLE
+    }
+
+    private fun setupBottomNavigationMenu() {
+        val menu = bottomNavigation.menu
+        menu.clear()
+        menu.add(Menu.NONE, R.id.navigation_home, 0, getString(R.string.nav_home))
+            .setIcon(android.R.drawable.ic_menu_view)
+        menu.add(Menu.NONE, R.id.navigation_path, 1, getString(R.string.nav_path))
+            .setIcon(android.R.drawable.ic_menu_directions)
+        menu.add(Menu.NONE, R.id.navigation_practice, 2, getString(R.string.nav_practice))
+            .setIcon(android.R.drawable.ic_menu_edit)
+        menu.add(Menu.NONE, R.id.navigation_vocabulary, 3, getString(R.string.nav_vocabulary))
+            .setIcon(android.R.drawable.ic_menu_agenda)
+        menu.add(Menu.NONE, R.id.navigation_progress, 4, getString(R.string.nav_progress))
+            .setIcon(android.R.drawable.ic_menu_myplaces)
+    }
+
+    private fun hideMainNavigation() {
+        bottomNavigation.visibility = View.GONE
+    }
+
+    private fun selectBottomTab(itemId: Int) {
+        if (bottomNavigation.selectedItemId == itemId) {
+            when (itemId) {
+                R.id.navigation_home -> showHome()
+                R.id.navigation_path -> showLessonPath()
+                R.id.navigation_practice -> showPracticeCenter()
+                R.id.navigation_vocabulary -> showVocabulary()
+                R.id.navigation_progress -> showProgress()
+            }
+            return
+        }
+        suppressNavSelectionCallback = true
+        bottomNavigation.selectedItemId = itemId
+        suppressNavSelectionCallback = false
+        when (itemId) {
+            R.id.navigation_home -> showHome()
+            R.id.navigation_path -> showLessonPath()
+            R.id.navigation_practice -> showPracticeCenter()
+            R.id.navigation_vocabulary -> showVocabulary()
+            R.id.navigation_progress -> showProgress()
+        }
+    }
+
     private fun showOnboarding() {
+        hideMainNavigation()
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainer, OnboardingFragment())
             .commit()
@@ -92,15 +180,37 @@ class MainActivity : AppCompatActivity(),
 
     private fun showLesson() {
         supportFragmentManager.beginTransaction()
+            .setCustomAnimations(
+                R.anim.woofie_enter_right,
+                R.anim.woofie_exit_left,
+                R.anim.woofie_enter_left,
+                R.anim.woofie_exit_right
+            )
             .replace(R.id.fragmentContainer, LessonFragment())
-            .addToBackStack(null)
+            .commit()
+    }
+
+    private fun showPracticeCenter() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainer, PracticeCenterFragment())
             .commit()
     }
 
     private fun showLessonPath() {
         supportFragmentManager.beginTransaction()
+            .setCustomAnimations(
+                R.anim.woofie_enter_right,
+                R.anim.woofie_exit_left,
+                R.anim.woofie_enter_left,
+                R.anim.woofie_exit_right
+            )
             .replace(R.id.fragmentContainer, LessonPathFragment())
-            .addToBackStack(null)
+            .commit()
+    }
+
+    private fun showVocabulary() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainer, VocabularyFragment())
             .commit()
     }
 
@@ -117,7 +227,6 @@ class MainActivity : AppCompatActivity(),
 
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainer, fragment)
-            .addToBackStack(null)
             .commit()
     }
 }

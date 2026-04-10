@@ -7,7 +7,6 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.woofie.R
 import com.example.woofie.model.Profession
-import com.example.woofie.ui.common.applySystemBarsPadding
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -31,7 +30,6 @@ class OnboardingFragment : Fragment(R.layout.fragment_onboarding) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        view.applySystemBarsPadding()
         val buttonContinue: MaterialButton = view.findViewById(R.id.buttonContinue)
         val feedbackText: TextView = view.findViewById(R.id.textSelectionSummary)
         val chipProfessionGroup: ChipGroup = view.findViewById(R.id.chipProfessionGroup)
@@ -58,11 +56,11 @@ class OnboardingFragment : Fragment(R.layout.fragment_onboarding) {
             val enabled = profession != null && level != null
             buttonContinue.isEnabled = enabled
 
-            feedbackText.text = if (enabled) {
+            feedbackText.text = if (profession != null && level != null) {
                 getString(
                     R.string.onboarding_summary,
-                    profession?.displayName.orEmpty(),
-                    level.orEmpty()
+                    profession.displayName,
+                    level
                 )
             } else {
                 getString(R.string.onboarding_summary_empty)

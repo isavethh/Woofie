@@ -5,12 +5,6 @@ import com.example.woofie.model.QuizQuestion
 import com.example.woofie.model.UserProfile
 
 object WoofieRepository {
-    data class VocabularyTerm(
-        val word: String,
-        val translation: String,
-        val example: String
-    )
-
     data class LessonStage(
         val number: Int,
         val title: String,
@@ -33,14 +27,7 @@ object WoofieRepository {
     var lastResultLabel: String? = null
     var lastEarnedXp: Int = 0
     var lastLessonPassed: Boolean = false
-    val recentMistakes: MutableList<String> = mutableListOf()
-
-    fun registerMistake(prompt: String) {
-        recentMistakes.add(0, prompt)
-        if (recentMistakes.size > 20) {
-            recentMistakes.removeAt(recentMistakes.lastIndex)
-        }
-    }
+    var recentMistakes = mutableListOf<String>()
 
     fun getLessonStages(profession: Profession): List<LessonStage> {
         return when (profession) {
@@ -69,77 +56,6 @@ object WoofieRepository {
 
     fun getTotalLessons(profession: Profession): Int {
         return getLessonStages(profession).sumOf { stage -> stage.lessonRange.count() }
-    }
-
-    fun getLessonConcept(profession: Profession, lessonNumber: Int): String {
-        val concepts = when (profession) {
-            Profession.IT -> listOf(
-                "Ticket resuelto",
-                "Standup bloqueos",
-                "Deployment exitoso",
-                "Logs de servidor",
-                "Code review",
-                "Rollback version",
-                "Timeout de API",
-                "Sprint planning"
-            )
-
-            Profession.HEALTH -> listOf(
-                "Tomar medicacion",
-                "Comodidad del paciente",
-                "Cita de seguimiento",
-                "Calmar al paciente",
-                "Signos vitales",
-                "Reposo medico",
-                "Instrucciones de alta",
-                "Escala de dolor"
-            )
-
-            Profession.SALES -> listOf(
-                "Llamada de seguimiento",
-                "Manejo de objeciones",
-                "Propuesta de precios",
-                "Agradecer reunion",
-                "Discovery call",
-                "Resumen por correo",
-                "Decision maker",
-                "Agendar demo"
-            )
-        }
-
-        val index = lessonNumber - 1
-        return concepts.getOrElse(index) { "Concepto ${lessonNumber}" }
-    }
-
-    fun getVocabularyTerms(profession: Profession): List<VocabularyTerm> {
-        return when (profession) {
-            Profession.IT -> listOf(
-                VocabularyTerm("Pull request", "solicitud de revision", "Please review my pull request before noon."),
-                VocabularyTerm("Bug fix", "correccion de error", "We pushed a bug fix to production."),
-                VocabularyTerm("Deploy", "desplegar", "We deploy every Friday."),
-                VocabularyTerm("Deadline", "fecha limite", "The deadline is next Tuesday."),
-                VocabularyTerm("Frontend", "capa visual", "I work mostly on frontend tasks."),
-                VocabularyTerm("API", "interfaz de servicios", "The API returns a timeout error.")
-            )
-
-            Profession.HEALTH -> listOf(
-                VocabularyTerm("Vitals", "signos vitales", "I will check your vitals now."),
-                VocabularyTerm("Diagnosis", "diagnostico", "The diagnosis is clear."),
-                VocabularyTerm("Follow-up", "seguimiento", "You need a follow-up appointment."),
-                VocabularyTerm("Prescription", "receta medica", "Your prescription is ready."),
-                VocabularyTerm("Dosage", "dosis", "Take the correct dosage every day."),
-                VocabularyTerm("Discharge", "alta medica", "The patient received discharge instructions.")
-            )
-
-            Profession.SALES -> listOf(
-                VocabularyTerm("Lead", "cliente potencial", "This lead is ready for a demo."),
-                VocabularyTerm("Pitch", "presentacion comercial", "Our sales pitch is concise."),
-                VocabularyTerm("Proposal", "propuesta", "I sent the pricing proposal yesterday."),
-                VocabularyTerm("Objection", "objecion", "Handle each objection with empathy."),
-                VocabularyTerm("Closing", "cierre de venta", "We are close to closing this deal."),
-                VocabularyTerm("Upsell", "venta adicional", "Upsell only when it adds value.")
-            )
-        }
     }
 
     fun getQuestionsFor(profession: Profession): List<QuizQuestion> {

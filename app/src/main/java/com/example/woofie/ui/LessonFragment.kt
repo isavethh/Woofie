@@ -186,7 +186,6 @@ class LessonFragment : Fragment(R.layout.fragment_lesson) {
                 hideFeedback()
                 getString(R.string.lesson_correct)
             } else {
-                WoofieRepository.registerMistake(currentQuestion.prompt)
                 showWrongFeedback(
                     selectedOption = currentQuestion.options[selectedIndex],
                     correctOption = currentQuestion.options[currentQuestion.correctIndex]

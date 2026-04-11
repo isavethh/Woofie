@@ -41,11 +41,10 @@ class LessonPathFragment : Fragment(R.layout.fragment_lesson_path) {
         view.applySystemBarsPadding()
         val profile = WoofieRepository.profile ?: return
         val container: LinearLayout = view.findViewById(R.id.pathContainer)
-        val trailContainerId = resources.getIdentifier("pathTrailContainer", "id", requireContext().packageName)
-        val trailContainer: LinearLayout? = if (trailContainerId != 0) view.findViewById(trailContainerId) else null
+        val trailContainer: LinearLayout = view.findViewById(R.id.pathTrailContainer)
         val nodeAnim = AnimationUtils.loadAnimation(requireContext(), R.anim.woofie_option_pop)
         container.removeAllViews()
-        trailContainer?.removeAllViews()
+        trailContainer.removeAllViews()
 
         val stages = WoofieRepository.getLessonStages(profile.profession)
         val totalNodes = WoofieRepository.getTotalLessons(profile.profession)
@@ -76,7 +75,7 @@ class LessonPathFragment : Fragment(R.layout.fragment_lesson_path) {
                     else ContextCompat.getColor(requireContext(), R.color.woofie_primary_dark)
                 )
             }
-            trailContainer?.addView(chip)
+            trailContainer.addView(chip)
 
             if (number < totalNodes) {
                 val connector = View(requireContext()).apply {
@@ -91,13 +90,13 @@ class LessonPathFragment : Fragment(R.layout.fragment_lesson_path) {
                         )
                     )
                 }
-                trailContainer?.addView(connector)
+                trailContainer.addView(connector)
             }
         }
 
         stages.forEach { stage ->
             val stageTitle = TextView(requireContext()).apply {
-                text = getString(R.string.lesson_path_stage_title, stage.number, stage.title)
+                text = "Etapa ${stage.number}: ${stage.title}"
                 setTextColor(ContextCompat.getColor(requireContext(), R.color.woofie_primary_dark))
                 setTypeface(typeface, android.graphics.Typeface.BOLD)
                 textSize = 16f
@@ -112,22 +111,14 @@ class LessonPathFragment : Fragment(R.layout.fragment_lesson_path) {
 
                 val anchor: FrameLayout = nodeView.findViewById(R.id.nodeAnchor)
                 val badge: TextView = nodeView.findViewById(R.id.textNodeBadge)
-                val concept: TextView = nodeView.findViewById(R.id.textNodeConcept)
                 val connector: View = nodeView.findViewById(R.id.pathConnector)
                 val shadow: View = nodeView.findViewById(R.id.nodeShadow)
-                val edgeTop: View = nodeView.findViewById(R.id.edgeTop)
-                val edgeRight: View = nodeView.findViewById(R.id.edgeRight)
-                val edgeBottom: View = nodeView.findViewById(R.id.edgeBottom)
-                val edgeLeft: View = nodeView.findViewById(R.id.edgeLeft)
 
                 val isCompleted = nodeNumber <= completed
                 val isUnlocked = nodeNumber <= nextUnlocked
                 val isCurrent = nodeNumber == currentNode
-                val lessonsPerSquare = 4
-                val learnedInSquare = (completed - ((nodeNumber - 1) * lessonsPerSquare)).coerceIn(0, lessonsPerSquare)
 
                 badge.text = nodeNumber.toString()
-                concept.text = WoofieRepository.getLessonConcept(profile.profession, nodeNumber)
                 badge.background = when {
                     isCompleted -> ContextCompat.getDrawable(requireContext(), R.drawable.lesson_node_completed)
                     isCurrent -> ContextCompat.getDrawable(requireContext(), R.drawable.lesson_node_current)
@@ -139,28 +130,19 @@ class LessonPathFragment : Fragment(R.layout.fragment_lesson_path) {
                     else ContextCompat.getColor(requireContext(), R.color.woofie_primary_dark)
                 )
                 badge.alpha = if (isUnlocked) 1f else 0.65f
-                concept.alpha = if (isUnlocked) 1f else 0.62f
                 badge.isEnabled = isUnlocked
                 shadow.alpha = if (isUnlocked) 1f else 0.45f
                 badge.scaleX = if (isCurrent) 1.08f else 1f
                 badge.scaleY = if (isCurrent) 1.08f else 1f
-                concept.setTypeface(concept.typeface, if (isCurrent) android.graphics.Typeface.BOLD else android.graphics.Typeface.NORMAL)
-
-                val edgeDoneColor = ContextCompat.getColor(requireContext(), R.color.woofie_primary)
-                val edgeTodoColor = ContextCompat.getColor(requireContext(), R.color.woofie_gray_200)
-                listOf(edgeTop, edgeRight, edgeBottom, edgeLeft).forEachIndexed { edgeIndex, edge ->
-                    edge.setBackgroundColor(if (edgeIndex < learnedInSquare) edgeDoneColor else edgeTodoColor)
-                    edge.alpha = if (isUnlocked) 1f else 0.55f
-                }
 
                 val anchorParams = anchor.layoutParams as LinearLayout.LayoutParams
                 val offsetX = when (index % 6) {
-                    0 -> 0f
-                    1 -> 14f
-                    2 -> 30f
-                    3 -> 38f
+                    0 -> -120f
+                    1 -> -26f
+                    2 -> 86f
+                    3 -> 120f
                     4 -> 18f
-                    else -> 6f
+                    else -> -92f
                 }
                 anchor.translationX = offsetX
                 anchor.layoutParams = anchorParams
@@ -168,12 +150,12 @@ class LessonPathFragment : Fragment(R.layout.fragment_lesson_path) {
                 connector.visibility = if (nodeNumber == totalNodes) View.GONE else View.VISIBLE
                 if (nodeNumber < totalNodes) {
                     val nextOffsetX = when ((index + 1) % 6) {
-                        0 -> 0f
-                        1 -> 14f
-                        2 -> 30f
-                        3 -> 38f
+                        0 -> -120f
+                        1 -> -26f
+                        2 -> 86f
+                        3 -> 120f
                         4 -> 18f
-                        else -> 6f
+                        else -> -92f
                     }
                     connector.translationX = (nextOffsetX - offsetX) / 2f
                     connector.rotation = (nextOffsetX - offsetX) / 10f

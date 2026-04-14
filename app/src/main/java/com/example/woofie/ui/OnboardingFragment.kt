@@ -4,17 +4,20 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import com.example.woofie.R
 import com.example.woofie.model.Profession
+import com.example.woofie.ui.common.applySystemBarsPadding
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.google.android.material.textfield.TextInputEditText
 
 class OnboardingFragment : Fragment(R.layout.fragment_onboarding) {
 
     interface Listener {
-        fun onOnboardingCompleted(profession: Profession, level: String)
+        fun onOnboardingCompleted(name: String, profession: Profession, level: String)
     }
 
     private var listener: Listener? = null
@@ -30,10 +33,13 @@ class OnboardingFragment : Fragment(R.layout.fragment_onboarding) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        view.applySystemBarsPadding()
+
         val buttonContinue: MaterialButton = view.findViewById(R.id.buttonContinue)
         val feedbackText: TextView = view.findViewById(R.id.textSelectionSummary)
         val chipProfessionGroup: ChipGroup = view.findViewById(R.id.chipProfessionGroup)
         val chipLevelGroup: ChipGroup = view.findViewById(R.id.chipLevelGroup)
+        val nameInput: TextInputEditText = view.findViewById(R.id.editUserName)
 
         val chipsByProfession = mapOf(
             R.id.chipProfessionIt to Profession.IT,
@@ -50,10 +56,13 @@ class OnboardingFragment : Fragment(R.layout.fragment_onboarding) {
             return chip.text.toString()
         }
 
+        fun selectedName(): String = nameInput.text?.toString()?.trim().orEmpty()
+
         fun refreshContinueState() {
             val profession = selectedProfession()
             val level = selectedLevel()
-            val enabled = profession != null && level != null
+            val name = selectedName()
+            val enabled = name.isNotBlank() && profession != null && level != null
             buttonContinue.isEnabled = enabled
 
             feedbackText.text = if (profession != null && level != null) {
@@ -69,14 +78,16 @@ class OnboardingFragment : Fragment(R.layout.fragment_onboarding) {
 
         chipProfessionGroup.setOnCheckedStateChangeListener { _, _ -> refreshContinueState() }
         chipLevelGroup.setOnCheckedStateChangeListener { _, _ -> refreshContinueState() }
+        nameInput.doOnTextChanged { _, _, _, _ -> refreshContinueState() }
 
         buttonContinue.setOnClickListener {
+            val name = selectedName()
             val profession = selectedProfession() ?: return@setOnClickListener
             val level = selectedLevel() ?: return@setOnClickListener
-            listener?.onOnboardingCompleted(profession, level)
+            if (name.isBlank()) return@setOnClickListener
+            listener?.onOnboardingCompleted(name, profession, level)
         }
 
         refreshContinueState()
     }
 }
-

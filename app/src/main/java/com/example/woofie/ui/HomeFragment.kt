@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.woofie.R
 import com.example.woofie.data.WoofieRepository
+import com.example.woofie.ui.common.applySystemBarsPadding
 import com.google.android.material.button.MaterialButton
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
@@ -30,6 +31,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        view.applySystemBarsPadding(includeBottom = false)
+
         val profile = WoofieRepository.profile ?: return
 
         val greeting: TextView = view.findViewById(R.id.textHomeGreeting)
@@ -39,7 +42,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         val buttonStartLesson: MaterialButton = view.findViewById(R.id.buttonStartLesson)
         val buttonProgress: MaterialButton = view.findViewById(R.id.buttonOpenProgress)
 
-        greeting.text = getString(R.string.home_greeting)
+        val name = profile.name.trim()
+        greeting.text = if (name.isNotEmpty()) {
+            getString(R.string.home_greeting_named, name)
+        } else {
+            getString(R.string.home_greeting)
+        }
         profession.text = getString(
             R.string.home_profession_detail,
             profile.profession.displayName,
@@ -59,4 +67,3 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         buttonProgress.setOnClickListener { listener?.onOpenProgress() }
     }
 }
-

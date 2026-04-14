@@ -113,12 +113,23 @@ class LessonPathFragment : Fragment(R.layout.fragment_lesson_path) {
                 val badge: TextView = nodeView.findViewById(R.id.textNodeBadge)
                 val connector: View = nodeView.findViewById(R.id.pathConnector)
                 val shadow: View = nodeView.findViewById(R.id.nodeShadow)
+                val concept: TextView = nodeView.findViewById(R.id.textNodeConcept)
+                val edgeTop: View = nodeView.findViewById(R.id.edgeTop)
+                val edgeRight: View = nodeView.findViewById(R.id.edgeRight)
+                val edgeBottom: View = nodeView.findViewById(R.id.edgeBottom)
+                val edgeLeft: View = nodeView.findViewById(R.id.edgeLeft)
 
                 val isCompleted = nodeNumber <= completed
                 val isUnlocked = nodeNumber <= nextUnlocked
                 val isCurrent = nodeNumber == currentNode
 
                 badge.text = nodeNumber.toString()
+                concept.text = getString(
+                    R.string.lesson_path_concept_format,
+                    nodeNumber,
+                    stage.title
+                )
+                concept.alpha = if (isUnlocked) 1f else 0.7f
                 badge.background = when {
                     isCompleted -> ContextCompat.getDrawable(requireContext(), R.drawable.lesson_node_completed)
                     isCurrent -> ContextCompat.getDrawable(requireContext(), R.drawable.lesson_node_current)
@@ -135,30 +146,37 @@ class LessonPathFragment : Fragment(R.layout.fragment_lesson_path) {
                 badge.scaleX = if (isCurrent) 1.08f else 1f
                 badge.scaleY = if (isCurrent) 1.08f else 1f
 
+                val edgeColor = if (isCompleted) {
+                    ContextCompat.getColor(requireContext(), R.color.woofie_primary)
+                } else {
+                    ContextCompat.getColor(requireContext(), R.color.woofie_gray_200)
+                }
+                edgeTop.setBackgroundColor(edgeColor)
+                edgeRight.setBackgroundColor(edgeColor)
+                edgeBottom.setBackgroundColor(edgeColor)
+                edgeLeft.setBackgroundColor(edgeColor)
+
                 val anchorParams = anchor.layoutParams as LinearLayout.LayoutParams
                 val offsetX = when (index % 6) {
-                    0 -> -120f
-                    1 -> -26f
-                    2 -> 86f
-                    3 -> 120f
-                    4 -> 18f
-                    else -> -92f
+                    0 -> 0f
+                    1 -> 24f
+                    2 -> 48f
+                    3 -> 72f
+                    4 -> 32f
+                    else -> 8f
                 }
                 anchor.translationX = offsetX
                 anchor.layoutParams = anchorParams
 
                 connector.visibility = if (nodeNumber == totalNodes) View.GONE else View.VISIBLE
                 if (nodeNumber < totalNodes) {
-                    val nextOffsetX = when ((index + 1) % 6) {
-                        0 -> -120f
-                        1 -> -26f
-                        2 -> 86f
-                        3 -> 120f
-                        4 -> 18f
-                        else -> -92f
-                    }
-                    connector.translationX = (nextOffsetX - offsetX) / 2f
-                    connector.rotation = (nextOffsetX - offsetX) / 10f
+                    connector.translationX = offsetX
+                    connector.setBackgroundColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            if (nodeNumber < currentNode) R.color.woofie_primary else R.color.woofie_primary_light
+                        )
+                    )
                 }
 
                 if (isUnlocked) {
@@ -205,6 +223,12 @@ class LessonPathFragment : Fragment(R.layout.fragment_lesson_path) {
         }
     }
 }
+
+
+
+
+
+
 
 
 

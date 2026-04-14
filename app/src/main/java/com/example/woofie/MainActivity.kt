@@ -8,6 +8,7 @@ import com.example.woofie.model.UserProfile
 import com.example.woofie.ui.HomeFragment
 import com.example.woofie.ui.LessonFragment
 import com.example.woofie.ui.LessonPathFragment
+import com.example.woofie.ui.LoginFragment
 import com.example.woofie.ui.OnboardingFragment
 import com.example.woofie.ui.PracticeCenterFragment
 import com.example.woofie.ui.ProgressFragment
@@ -17,6 +18,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import android.view.View
 
 class MainActivity : AppCompatActivity(),
+    LoginFragment.Listener,
     OnboardingFragment.Listener,
     HomeFragment.Listener,
     LessonPathFragment.Listener,
@@ -45,7 +47,7 @@ class MainActivity : AppCompatActivity(),
         if (savedInstanceState == null) {
             if (WoofieRepository.profile == null) {
                 bottomNav.visibility = View.GONE
-                showOnboarding()
+                showLogin()
             } else {
                 bottomNav.visibility = View.VISIBLE
                 showRoleplay()
@@ -55,8 +57,13 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
-    override fun onOnboardingCompleted(profession: Profession, level: String) {
+    override fun onLoginContinue(email: String) {
+        showOnboarding()
+    }
+
+    override fun onOnboardingCompleted(name: String, profession: Profession, level: String) {
         WoofieRepository.profile = UserProfile(
+            name = name,
             profession = profession,
             level = level,
             streak = 1,
@@ -101,7 +108,7 @@ class MainActivity : AppCompatActivity(),
         WoofieRepository.lastEarnedXp = 0
         WoofieRepository.lastLessonPassed = false
         bottomNav.visibility = View.GONE
-        showOnboarding()
+        showLogin()
     }
 
     override fun onOpenMatchPairs() {
@@ -119,6 +126,12 @@ class MainActivity : AppCompatActivity(),
     private fun showOnboarding() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainer, OnboardingFragment())
+            .commit()
+    }
+
+    private fun showLogin() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainer, LoginFragment())
             .commit()
     }
 

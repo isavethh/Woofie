@@ -27,7 +27,7 @@ object WoofieRepository {
     var lastResultLabel: String? = null
     var lastEarnedXp: Int = 0
     var lastLessonPassed: Boolean = false
-    var recentMistakes = mutableListOf<String>()
+    val recentMistakes: MutableList<String> = mutableListOf()
 
     fun getLessonStages(profession: Profession): List<LessonStage> {
         return when (profession) {
@@ -225,4 +225,3 @@ object WoofieRepository {
         )
     }
 }
-

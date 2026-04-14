@@ -19,6 +19,23 @@
     <string name="onboarding_summary">Ruta lista: %1$s - Nivel %2$s</string>
     <string name="onboarding_summary_empty">Selecciona profesion y nivel para activar tu plan.</string>
     <string name="onboarding_continue">Crear mi ruta</string>
+    <string name="onboarding_level_assessment_cta">Tomar test de nivel</string>
+    <string name="onboarding_level_assessment_title">Test rapido de nivel</string>
+    <string name="onboarding_level_assessment_intro">Responde 3 preguntas para recomendarte un nivel.</string>
+    <string name="onboarding_level_assessment_apply">Aplicar recomendacion</string>
+    <string name="onboarding_level_assessment_q1">1. Elige la frase correcta:</string>
+    <string name="onboarding_level_assessment_q1_o1">I has updated the server.</string>
+    <string name="onboarding_level_assessment_q1_o2">I updated the server.</string>
+    <string name="onboarding_level_assessment_q1_o3">I update yesterday the server.</string>
+    <string name="onboarding_level_assessment_q2">2. Completa: We ___ a bug in production.</string>
+    <string name="onboarding_level_assessment_q2_o1">fix</string>
+    <string name="onboarding_level_assessment_q2_o2">fixed</string>
+    <string name="onboarding_level_assessment_q2_o3">fixing</string>
+    <string name="onboarding_level_assessment_q3">3. Respuesta adecuada en un standup:</string>
+    <string name="onboarding_level_assessment_q3_o1">Yesterday I fix bug, today I fix more bug.</string>
+    <string name="onboarding_level_assessment_q3_o2">Yesterday I fixed a bug, today I will work on the API.</string>
+    <string name="onboarding_level_assessment_q3_o3">Yesterday I fixing the bugs, today I fixed API.</string>
+    <string name="onboarding_summary_recommended">%1$s · %2$s (Recomendado: %3$s)</string>
 
     <string name="profession_it">Tecnologia e IT</string>
     <string name="profession_health">Salud</string>

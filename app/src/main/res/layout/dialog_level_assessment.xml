@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/textAssessmentIntro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/onboarding_level_assessment_intro"
+            android:textColor="@color/woofie_text_primary" />
+
+        <TextView
+            android:id="@+id/textAssessmentQ1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/onboarding_level_assessment_q1"
+            android:textColor="@color/woofie_primary_dark"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:id="@+id/assessmentQ1Group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/assessmentQ1Option1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/onboarding_level_assessment_q1_o1" />
+
+            <RadioButton
+                android:id="@+id/assessmentQ1Option2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/onboarding_level_assessment_q1_o2" />
+
+            <RadioButton
+                android:id="@+id/assessmentQ1Option3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/onboarding_level_assessment_q1_o3" />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/textAssessmentQ2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/onboarding_level_assessment_q2"
+            android:textColor="@color/woofie_primary_dark"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:id="@+id/assessmentQ2Group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/assessmentQ2Option1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/onboarding_level_assessment_q2_o1" />
+
+            <RadioButton
+                android:id="@+id/assessmentQ2Option2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/onboarding_level_assessment_q2_o2" />
+
+            <RadioButton
+                android:id="@+id/assessmentQ2Option3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/onboarding_level_assessment_q2_o3" />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/textAssessmentQ3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/onboarding_level_assessment_q3"
+            android:textColor="@color/woofie_primary_dark"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:id="@+id/assessmentQ3Group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/assessmentQ3Option1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/onboarding_level_assessment_q3_o1" />
+
+            <RadioButton
+                android:id="@+id/assessmentQ3Option2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/onboarding_level_assessment_q3_o2" />
+
+            <RadioButton
+                android:id="@+id/assessmentQ3Option3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/onboarding_level_assessment_q3_o3" />
+        </RadioGroup>
+    </LinearLayout>
+</ScrollView>
+

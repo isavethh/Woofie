@@ -27,6 +27,8 @@ class LessonFragment : Fragment(R.layout.fragment_lesson) {
     private var currentIndex = 0
     private var correctAnswers = 0
     private var hasAnsweredCurrent = false
+    private var currentOptions: List<String> = emptyList()
+    private var currentCorrectIndex: Int = 0
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -102,17 +104,23 @@ class LessonFragment : Fragment(R.layout.fragment_lesson) {
 
         fun bindQuestion() {
             val question = questions[currentIndex]
+            val indexed = question.options.mapIndexed { index, text -> index to text }
+            val shuffled = indexed.shuffled()
+            currentOptions = shuffled.map { it.second }
+            currentCorrectIndex = shuffled.indexOfFirst { it.first == question.correctIndex }
             progressText.text = getString(R.string.lesson_progress, currentIndex + 1, questions.size)
             progressBar.progress = currentIndex + 1
             questionText.text = question.prompt
             questionText.startAnimation(questionAnim)
-            optionOne.text = question.options[0]
-            optionTwo.text = question.options[1]
-            optionThree.text = question.options[2]
+            optionOne.text = currentOptions[0]
+            optionTwo.text = currentOptions[1]
+            optionThree.text = currentOptions[2]
             optionsGroup.clearCheck()
             options.forEach { option ->
                 option.isEnabled = true
                 option.setBackgroundResource(R.drawable.lesson_option_selector)
+                option.scaleX = 1f
+                option.scaleY = 1f
             }
             resultText.text = ""
             hideFeedback()
@@ -130,6 +138,21 @@ class LessonFragment : Fragment(R.layout.fragment_lesson) {
                 }
                 radioButton.setBackgroundResource(background)
                 radioButton.isEnabled = false
+            }
+            if (selectedIndex == correctIndex) {
+                val correctButton = options[correctIndex]
+                correctButton.animate()
+                    .scaleX(1.06f)
+                    .scaleY(1.06f)
+                    .setDuration(120)
+                    .withEndAction {
+                        correctButton.animate()
+                            .scaleX(1f)
+                            .scaleY(1f)
+                            .setDuration(120)
+                            .start()
+                    }
+                    .start()
             }
         }
 
@@ -177,22 +200,22 @@ class LessonFragment : Fragment(R.layout.fragment_lesson) {
                 else -> 2
             }
             val currentQuestion = questions[currentIndex]
-            val isCorrect = selectedIndex == currentQuestion.correctIndex
+            val isCorrect = selectedIndex == currentCorrectIndex
             if (isCorrect) correctAnswers += 1
             hasAnsweredCurrent = true
-            showAnswerState(selectedIndex = selectedIndex, correctIndex = currentQuestion.correctIndex)
+            showAnswerState(selectedIndex = selectedIndex, correctIndex = currentCorrectIndex)
 
             resultText.text = if (isCorrect) {
                 hideFeedback()
                 getString(R.string.lesson_correct)
             } else {
                 showWrongFeedback(
-                    selectedOption = currentQuestion.options[selectedIndex],
-                    correctOption = currentQuestion.options[currentQuestion.correctIndex]
+                    selectedOption = currentOptions[selectedIndex],
+                    correctOption = currentOptions[currentCorrectIndex]
                 )
                 getString(
                     R.string.lesson_incorrect,
-                    currentQuestion.options[currentQuestion.correctIndex]
+                    currentOptions[currentCorrectIndex]
                 )
             }
             resultText.startAnimation(resultAnim)
@@ -205,4 +228,3 @@ class LessonFragment : Fragment(R.layout.fragment_lesson) {
         bindQuestion()
     }
 }
-

@@ -15,5 +15,10 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
         <!-- Customize your theme here. -->
+        <item name="colorOnSurface">@color/woofie_text_primary</item>
+        <item name="colorOnBackground">@color/woofie_text_primary</item>
+        <item name="colorError">@color/woofie_error</item>
+        <item name="android:textColorPrimary">@color/woofie_text_primary</item>
+        <item name="android:textColorSecondary">@color/woofie_text_secondary</item>
     </style>
 </resources>

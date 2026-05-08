@@ -14,6 +14,7 @@ import com.example.woofie.ui.PracticeCenterFragment
 import com.example.woofie.ui.ProgressFragment
 import com.example.woofie.ui.RoleplayFragment
 import com.example.woofie.ui.VocabularyFragment
+import com.example.woofie.ui.PlacementTestFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import android.view.View
 
@@ -24,7 +25,8 @@ class MainActivity : AppCompatActivity(),
     LessonPathFragment.Listener,
     LessonFragment.Listener,
     ProgressFragment.Listener,
-    PracticeCenterFragment.Listener {
+    PracticeCenterFragment.Listener,
+    PlacementTestFragment.Listener {
 
     private lateinit var bottomNav: BottomNavigationView
 
@@ -72,6 +74,14 @@ class MainActivity : AppCompatActivity(),
         )
         bottomNav.visibility = View.VISIBLE
         bottomNav.selectedItemId = R.id.navigation_home
+    }
+
+    override fun onOpenPlacementTest() {
+        showPlacementTest()
+    }
+
+    override fun onPlacementTestFinished(level: String) {
+        // No-op. El resultado se aplica en Onboarding via FragmentResult.
     }
 
     override fun onStartLesson() {
@@ -182,6 +192,19 @@ class MainActivity : AppCompatActivity(),
                 R.anim.woofie_exit_right
             )
             .replace(R.id.fragmentContainer, LessonPathFragment())
+            .addToBackStack(null)
+            .commit()
+    }
+
+    private fun showPlacementTest() {
+        supportFragmentManager.beginTransaction()
+            .setCustomAnimations(
+                R.anim.woofie_enter_right,
+                R.anim.woofie_exit_left,
+                R.anim.woofie_enter_left,
+                R.anim.woofie_exit_right
+            )
+            .replace(R.id.fragmentContainer, PlacementTestFragment())
             .addToBackStack(null)
             .commit()
     }

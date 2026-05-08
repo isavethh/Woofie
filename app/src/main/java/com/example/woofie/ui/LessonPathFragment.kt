@@ -53,6 +53,10 @@ class LessonPathFragment : Fragment(R.layout.fragment_lesson_path) {
         val currentNode = if (nextUnlocked <= totalNodes) nextUnlocked else totalNodes
 
         fun dp(value: Int): Int = (value * resources.displayMetrics.density).toInt()
+        val screenWidth = resources.displayMetrics.widthPixels
+        val nodeSize = dp(74)
+        val maxShift = ((screenWidth - dp(40) - nodeSize) / 2f).coerceAtLeast(0f) * 0.6f
+        val offsetPattern = listOf(-0.18f, 0.06f, 0.26f, -0.12f, 0.2f, -0.04f)
 
         repeat(totalNodes) { index ->
             val number = index + 1
@@ -157,14 +161,8 @@ class LessonPathFragment : Fragment(R.layout.fragment_lesson_path) {
                 edgeLeft.setBackgroundColor(edgeColor)
 
                 val anchorParams = anchor.layoutParams as LinearLayout.LayoutParams
-                val offsetX = when (index % 6) {
-                    0 -> 0f
-                    1 -> 24f
-                    2 -> 48f
-                    3 -> 72f
-                    4 -> 32f
-                    else -> 8f
-                }
+                val offsetFactor = offsetPattern[index % offsetPattern.size]
+                val offsetX = offsetFactor * maxShift
                 anchor.translationX = offsetX
                 anchor.layoutParams = anchorParams
 
@@ -223,21 +221,3 @@ class LessonPathFragment : Fragment(R.layout.fragment_lesson_path) {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

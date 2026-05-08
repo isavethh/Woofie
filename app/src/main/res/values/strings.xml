@@ -19,7 +19,7 @@
     <string name="onboarding_summary">Ruta lista: %1$s - Nivel %2$s</string>
     <string name="onboarding_summary_empty">Selecciona profesion y nivel para activar tu plan.</string>
     <string name="onboarding_continue">Crear mi ruta</string>
-    <string name="onboarding_level_assessment_cta">Tomar test de nivel</string>
+    <string name="onboarding_level_assessment_cta">Hacer test de nivel</string>
     <string name="onboarding_level_assessment_title">Test rapido de nivel</string>
     <string name="onboarding_level_assessment_intro">Responde 3 preguntas para recomendarte un nivel.</string>
     <string name="onboarding_level_assessment_apply">Aplicar recomendacion</string>
@@ -87,4 +87,46 @@
     <string name="practice_speak_desc">Entrena frases clave de tu rol</string>
     <string name="practice_review_errors_title">Revisar Errores</string>
     <string name="practice_review_errors_desc">Repasa los errores recientes (%1$d)</string>
+
+    <string name="placement_back">Volver</string>
+    <string name="placement_test_title">Test de nivel Woofie</string>
+    <string name="placement_test_title_short">Test de nivel</string>
+    <string name="placement_intro_headline">Vamos a ubicar tu nivel</string>
+    <string name="placement_intro_body">No es un examen. Solo queremos conocerte mejor.</string>
+    <string name="placement_test_start">Comenzar</string>
+    <string name="placement_test_next">Siguiente</string>
+    <string name="placement_test_finish">Empezar ruta</string>
+    <string name="placement_test_progress">Paso %1$d de %2$d</string>
+    <string name="placement_question_headline">Pregunta rapida</string>
+    <string name="placement_question_subhead">Elige la opcion mas profesional.</string>
+    <string name="placement_feedback_correct">Excelente, esa es la correcta.</string>
+    <string name="placement_feedback_incorrect">Casi. La correcta era: %1$s</string>
+    <string name="placement_result_title">Nivel recomendado</string>
+    <string name="placement_result_body">Listo. Te recomendamos empezar en %1$s.</string>
+    <string name="placement_badge_accuracy">Precision %1$d%%</string>
+    <string name="placement_badge_confidence_high">Confianza alta</string>
+    <string name="placement_badge_confidence_mid">Confianza media</string>
+    <string name="placement_badge_confidence_low">Confianza inicial</string>
+    <string name="placement_badge_speed">Ritmo constante</string>
+
+    <string name="placement_q1_prompt">How do you say "soporte tecnico"?</string>
+    <string name="placement_q1_o1">Technical support</string>
+    <string name="placement_q1_o2">Tech soup port</string>
+    <string name="placement_q1_o3">Support technique</string>
+    <string name="placement_q1_o4">Technical assistance room</string>
+
+    <string name="placement_q2_prompt">Completa: We ___ a bug in production.</string>
+    <string name="placement_q2_o1">fix</string>
+    <string name="placement_q2_o2">fixed</string>
+    <string name="placement_q2_o3">fixing</string>
+
+    <string name="placement_q3_prompt">Daily standup: What did you do yesterday?</string>
+    <string name="placement_q3_o1">I was late for my lunch.</string>
+    <string name="placement_q3_o2">I fixed the login bug.</string>
+    <string name="placement_q3_o3">I closed the office door.</string>
+
+    <string name="placement_q4_prompt">Select the correct word for this tool:</string>
+    <string name="placement_q4_o1">Mousepad</string>
+    <string name="placement_q4_o2">Headset</string>
+    <string name="placement_q4_o3">Keyboard</string>
 </resources>

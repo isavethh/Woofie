@@ -8,12 +8,12 @@
     <color name="woofie_background">#F2F5F8</color>
     <color name="woofie_surface">#FFFFFFFF</color>
     <color name="woofie_text_primary">#2F3B46</color>
-    <color name="woofie_text_secondary">#7C8A97</color>
     <color name="woofie_text_on_dark">#FFFFFFFF</color>
+    <color name="woofie_text_secondary">#7C8A97</color>
     <color name="woofie_gray_200">#E3E8EE</color>
     <color name="woofie_gray_500">#7C8A97</color>
     <color name="woofie_success_light">#DFF4FF</color>
     <color name="woofie_success">#56A8D5</color>
-    <color name="woofie_error_light">#FFE1E1</color>
-    <color name="woofie_error">#E35757</color>
+    <color name="woofie_error_light">#FFE6E6</color>
+    <color name="woofie_error">#D95C5C</color>
 </resources>

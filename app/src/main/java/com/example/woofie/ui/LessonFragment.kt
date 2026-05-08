@@ -1,12 +1,20 @@
 package com.example.woofie.ui
 
+import android.animation.ArgbEvaluator
+import android.animation.ValueAnimator
 import android.content.Context
+import android.graphics.Typeface
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.woofie.R
 import com.example.woofie.data.WoofieRepository
@@ -65,6 +73,12 @@ class LessonFragment : Fragment(R.layout.fragment_lesson) {
         val shakeAnim = AnimationUtils.loadAnimation(requireContext(), R.anim.woofie_shake)
         var isFeedbackExpanded = false
 
+        val textPrimary = ContextCompat.getColor(requireContext(), R.color.woofie_text_primary)
+        val textSuccess = ContextCompat.getColor(requireContext(), R.color.woofie_success)
+        val textError = ContextCompat.getColor(requireContext(), R.color.woofie_error)
+        val feedbackErrorLight = ContextCompat.getColor(requireContext(), R.color.woofie_error_light)
+        val feedbackAccent = ContextCompat.getColor(requireContext(), R.color.woofie_accent_strong)
+
         progressBar.max = questions.size
 
         fun animateOptionsEntry() {
@@ -92,14 +106,37 @@ class LessonFragment : Fragment(R.layout.fragment_lesson) {
         }
 
         fun showWrongFeedback(selectedOption: String, correctOption: String) {
-            wrongFeedbackBody.text = getString(
+            val feedbackText = getString(
                 R.string.lesson_feedback_body,
                 selectedOption,
                 correctOption
             )
+            val spannable = SpannableString(feedbackText)
+
+            fun highlight(text: String, color: Int) {
+                val start = feedbackText.indexOf(text)
+                if (start >= 0) {
+                    val end = start + text.length
+                    spannable.setSpan(ForegroundColorSpan(color), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    spannable.setSpan(StyleSpan(Typeface.BOLD), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                }
+            }
+
+            highlight(selectedOption, textError)
+            highlight(correctOption, textSuccess)
+
+            wrongFeedbackBody.text = spannable
+            wrongFeedbackCard.setCardBackgroundColor(feedbackErrorLight)
             collapseFeedback()
             wrongFeedbackCard.visibility = View.VISIBLE
             wrongFeedbackCard.startAnimation(resultAnim)
+
+            ValueAnimator.ofObject(ArgbEvaluator(), textError, feedbackAccent, textError).apply {
+                duration = 720
+                addUpdateListener { animator ->
+                    wrongFeedbackCard.setStrokeColor(animator.animatedValue as Int)
+                }
+            }.start()
         }
 
         fun bindQuestion() {
@@ -119,6 +156,7 @@ class LessonFragment : Fragment(R.layout.fragment_lesson) {
             options.forEach { option ->
                 option.isEnabled = true
                 option.setBackgroundResource(R.drawable.lesson_option_selector)
+                option.setTextColor(textPrimary)
                 option.scaleX = 1f
                 option.scaleY = 1f
             }
@@ -137,19 +175,26 @@ class LessonFragment : Fragment(R.layout.fragment_lesson) {
                     else -> R.drawable.lesson_option_idle
                 }
                 radioButton.setBackgroundResource(background)
+                radioButton.setTextColor(
+                    when {
+                        index == correctIndex -> textSuccess
+                        index == selectedIndex -> textError
+                        else -> textPrimary
+                    }
+                )
                 radioButton.isEnabled = false
             }
             if (selectedIndex == correctIndex) {
                 val correctButton = options[correctIndex]
                 correctButton.animate()
-                    .scaleX(1.06f)
-                    .scaleY(1.06f)
-                    .setDuration(120)
+                    .scaleX(1.08f)
+                    .scaleY(1.08f)
+                    .setDuration(140)
                     .withEndAction {
                         correctButton.animate()
                             .scaleX(1f)
                             .scaleY(1f)
-                            .setDuration(120)
+                            .setDuration(140)
                             .start()
                     }
                     .start()
